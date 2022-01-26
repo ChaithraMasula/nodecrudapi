@@ -1,0 +1,30 @@
+{
+  "name": "nodecrudapi",
+  "version": "1.0.0",
+  "description": "samplecrudapi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChaithraMasula/nodecrudapi.git"
+  },
+  "keywords": [
+    "simplecrudapi"
+  ],
+  "author": "chaithu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChaithraMasula/nodecrudapi/issues"
+  },
+  "homepage": "https://github.com/ChaithraMasula/nodecrudapi#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
