@@ -1,37 +1,52 @@
-//Importing  Express js 
-
-//Express js for creating server and api get ,post,put and delete
+// Import expressjs for creating the server and creating api routes
 const express = require('express')
 
-//Body parser for getting the data through the urls
+// Body Parser for urlencoded form data 
 const bodyParser = require('body-parser')
 
-//Importing Mongo Client
-const MongoClient = require('mongodb').MongoClient
+// Importing Mongo client
+const MongoClient = require('mongodb').MongoClient 
 
-//const app controlls the entire app with express functional constructor
+// Creating app function from the express functional constructor to use it for creating
+// server and apis
 const app = express()
 
-// we are saying expressjs tat to use body parser urlencoded to be true
+// Enabling body parser with urlencoded form data to be true
 app.use(bodyParser.urlencoded({extended:true}))
 
-// Database ConnectionString
-const connectionString="mongodb+srv://chaithra13:chaithu13@cluster0.fiuey.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+// Database Connection String
+const connectionString ="mongodb+srv://chaithra13:chaithu13@cluster0.fiuey.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
-//connecting the database
-MongoClient.connect(connectionString,{useUnifiedTopology : true})
-    .then(client=> {
-        console.log("connected to the database")
-        const db = client.db("star-wars-quotes")
-    })
-app.post('/quotes', (req,res)=>{
-    res.send(req.body)
-}),
-app.get('/', (req,res) => {
-    res.sendFile(_dirname + './index.html')
+// Connecting the database
+MongoClient.connect(connectionString,{useUnifiedTopology:true})
+ .then(client => {
+     console.log('connected to database server')
+     const db= client.db('star-wars-quotes')
+     const quotesCollection = db.collection('quotes')
+     //Create with POST
+     // Two parameters first one route, second one is function what you want to execute
+        app.post('/quotes', (req,res) => {
+            quotesCollection.insertOne(req.body)
+            .then(result=>{
+                console.log(result)
+            })
+            .catch(error=>console.error(error))
+        })
+
+}).catch(console.error)
+
+// Reading data from the MongoDB
+    app.get('/getall',(req,res) => {
+        db.collection('quotes').find().toArray()
+        .then(result =>{
+            res.send(result)
+        })
+        .catch(error=>console.error(error))
     })
 
-    const PORT =5000
-app.listen(PORT,()=>{
-    console.log(`server running at port ${PORT}`)
+
+// Creating the server
+const PORT = 5000
+app.listen(PORT, () => {
+    console.log(`Server is Running on PORT: ${PORT}`)
 })
