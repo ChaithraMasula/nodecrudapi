@@ -19,10 +19,11 @@ app.use(bodyParser.urlencoded({extended:true}))
 const connectionString="mongodb+srv://chaithra13:chaithu13@cluster0.fiuey.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 //connecting the database
-MongoClient.connect(connectionString,(err,client) => {
-    if (err) return console.error (err)
-    console.log('connected to the database')
-})
+MongoClient.connect(connectionString,{useUnifiedTopology : true})
+    .then(client=> {
+        console.log("connected to the database")
+        const db = client.db("star-wars-quotes")
+    })
 app.post('/quotes', (req,res)=>{
     res.send(req.body)
 }),
